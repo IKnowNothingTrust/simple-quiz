@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <style>
+      .body {
+        margin: 0%;
+        overflow: hidden;
+      }
+      .container {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <input placeholder="answer" id="textInput" type="text" />
+      <button onclick="submit()">submit</button>
+      <h1 id="textDisplay">placeholder</h1>
+      <p id="info"></p>
+    </div>
+
+    <script>
+      questionList = [
+        { question: "1+1", answer: 2 },
+        { question: "2+5", answer: 7 },
+        { question: "2*2", answer: 4 },
+        { question: "4/4", answer: 1 },
+        { question: "6+6", answer: 12 },
+        { question: "5+5", answer: 10 },
+        { question: "3*3", answer: 9 },
+        { question: "7+3", answer: 10 },
+        { question: "9*2", answer: 18 },
+        { question: "15*40", answer: 600 },
+      ];
+      questionAmount = Object.keys(questionList).length;
+      let questionNumber = 0;
+      let textinput = document.getElementById("textInput");
+      let textDisplay = document.getElementById("textDisplay");
+      let info = document.getElementById("info");
+
+      textDisplay.textContent = questionList[questionNumber].question;
+      console.table(questionList);
+
+      function submit() {
+        let userAnswer = textInput.value;
+        let correctAnswer = questionList[questionNumber].answer;
+
+        if (userAnswer == correctAnswer) {
+          nextQuestion();
+          info.textContent = "Correct!";
+          info.style.color = "green";
+          console.log(
+            `Answer: ${textInput.value} Correct Answer: ${correctAnswer}`
+          ); // log
+        } else {
+          info.textContent = "Incorrect!";
+          info.style.color = "red";
+          console.log(
+            `Answer: ${textInput.value} Correct Answer: ${correctAnswer}`
+          ); // log
+        }
+      }
+      function nextQuestion() {
+        questionNumber++;
+        textinput.value = "";
+        if (questionNumber < questionAmount) {
+          textDisplay.textContent = questionList[questionNumber].question;
+        } else {
+          textDisplay.textContent = "Quiz Complete!";
+          info.textContent = "";
+        }
+      }
+    </script>
+  </body>
+</html>
