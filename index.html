@@ -3,81 +3,197 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+    />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="globalCSS.css"> 
     <title>Quiz</title>
     <style>
+      body {
+        display: flex;
+        justify-content: center;
+        margin: 0%;
+        font-family: "Inter", "Roboto", sans-serif;
+        color: white;
+        height: 100vh; /* Full viewport height */
+      }
+      .background {
+        height: 100vh;
+        width: 100%;
+        object-fit: cover;
+        z-index: -1;
+        position: fixed;
+      }
       .body {
         margin: 0%;
         overflow: hidden;
       }
       .container {
-        position: absolute;
-        top: 50px;
-        left: 50%;
-        transform: translateX(-50%);
+        align-self: center;
+        max-width: 400px;
+        min-height: 680px;
+        display: flex;
+        background-color: rgba(255, 255, 255, 0.1);
+        font-family: "Inter", "Roboto", sans-serif;
+        flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
+        padding: 50px;
+        border-radius: 40px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0px 0px 12px 12px rgba(0, 0, 0, 0.2);
+        margin: 6px;
       }
+      .button {
+        background-color: rgb(213, 143, 51);
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px;
+        cursor: pointer;
+        border-radius: 100px;
+        padding: 8px;
+        width: min(200px, 60vw);
+        font-family: "Inter", "Roboto", sans-serif;
+        text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.9);
+        box-shadow: 0px 0px 12px 8px rgba(0, 0, 0, 0.2);
+      }
+      .h1 {
+        font-size: 32px;
+        color: white;
+        text-shadow: 5px 5px 12px rgba(0, 0, 0, 0.9);
+      }
+      .textInput {
+        color: white;
+        width: 160px;
+        height: 20px;
+        margin-bottom: 20px;
+        border-radius: 100px;
+        height: 25px;
+        width: min(250px, 60vw);
+        color: black;
+        border: none;
+        box-shadow: 0px 0px 12px 8px rgba(0, 0, 0, 0.2);
+        padding-left: 10px;
+      }
+      .backButton {
+        background-color: rgb(213, 143, 51);
+        box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.2);
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        border-radius: 100px;
+        padding: 8px;
+        width: min(400px, 60vw);
+        font-family: "Inter", "Roboto", sans-serif;
+        height: 45px;
+        margin-top: 24%;
+        text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.9);
+        }
+        .paragraph {
+            margin-bottom: 20px;
+            text-shadow: 0px 0px 8px rgba(0, 0, 0);
+            font-size: var(--fontsizeParagraph);
+        }
     </style>
   </head>
 
   <body>
+    <img class="background" src="images/backgroundQuiz.jpg" alt="" />
     <div class="container">
-      <input placeholder="answer" id="textInput" type="text" />
-      <button onclick="submit()">submit</button>
-      <h1 id="textDisplay">placeholder</h1>
+        <h1 class="h1">Quiz</h1>
+        <p class="paragraph">
+            This is a simple common knowledge quiz, and a great learning project for beginners.
+        </p>
+        <hr style="width: 100%; margin-bottom: 20px;">
+        <h1 class="h1" id="textDisplay" style="margin-bottom: 60px;">placeholder</h1>
+      <input class="textInput" placeholder="Answer" id="textInput" type="text" />
+      <button class="button" onclick="submitAnswer()">submit</button>
+      <button class="button" onclick="nextQuestion(true)" id="skip">Skip</button>
       <p id="info"></p>
+      <a href="frontPage.html" class="backButton">Back</a>
     </div>
 
     <script>
-      questionList = [
-        { question: "1+1", answer: 2 },
-        { question: "2+5", answer: 7 },
-        { question: "2*2", answer: 4 },
-        { question: "4/4", answer: 1 },
-        { question: "6+6", answer: 12 },
-        { question: "5+5", answer: 10 },
-        { question: "3*3", answer: 9 },
-        { question: "7+3", answer: 10 },
-        { question: "9*2", answer: 18 },
-        { question: "15*40", answer: 600 },
-      ];
-      questionAmount = Object.keys(questionList).length;
+let questionList = [
+    { question: "What is the capital of France?", answer: "Paris" },
+    { question: "What is the largest planet in our solar system?", answer: "Jupiter" },
+    { question: "Who painted the Mona Lisa?", answer: "Leonardo da Vinci" },
+    { question: "What is the square root of 64?", answer: 8 },
+    { question: "What is the capital of Japan?", answer: "Tokyo" },
+    { question: "What is the tallest mountain in the world?", answer: "Mount Everest" },
+    { question: "What is the largest ocean on Earth?", answer: "Pacific Ocean" },
+    { question: "What is the smallest country in the world?", answer: "Vatican City" },
+    { question: "What is the largest country in the world?", answer: "Russia" },
+    { question: "What is the first planet in our solar system?", answer: "Mercury" },
+
+  ];
+      let questionAmount = questionList.length;
       let questionNumber = 0;
-      let textinput = document.getElementById("textInput");
+      let textInput = document.getElementById("textInput");
       let textDisplay = document.getElementById("textDisplay");
       let info = document.getElementById("info");
+      let score = { wrong: 0, right: 0 };
 
       textDisplay.textContent = questionList[questionNumber].question;
       console.table(questionList);
 
-      function submit() {
+      function submitAnswer() {
         let userAnswer = textInput.value;
         let correctAnswer = questionList[questionNumber].answer;
 
         if (userAnswer == correctAnswer) {
-          nextQuestion();
+          nextQuestion(false);
           info.textContent = "Correct!";
           info.style.color = "green";
           console.log(
             `Answer: ${textInput.value} Correct Answer: ${correctAnswer}`
-          ); // log
+          );
+          score.right++;
         } else {
           info.textContent = "Incorrect!";
           info.style.color = "red";
           console.log(
             `Answer: ${textInput.value} Correct Answer: ${correctAnswer}`
-          ); // log
+          );
+          score.wrong++;
         }
       }
-      function nextQuestion() {
+      function nextQuestion(skip) {
+        if (skip) {
+          score.wrong++;
+        }
         questionNumber++;
-        textinput.value = "";
+        textInput.value = "";
         if (questionNumber < questionAmount) {
           textDisplay.textContent = questionList[questionNumber].question;
         } else {
           textDisplay.textContent = "Quiz Complete!";
-          info.textContent = "";
+          info.textContent = `Correct: ${score.right}, Incorrect: ${score.wrong}`;
+          info.style.color = "black";
         }
       }
+      textInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          submitAnswer();
+        }
+      });
     </script>
   </body>
 </html>
+<!-- Foto from Martin Martz on upsplash  -->
